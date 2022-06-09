@@ -1,0 +1,38 @@
+/// <reference types="cypress" />
+
+describe('Test for Bajaj',()=>{
+
+    beforeEach('Set-View port ',()=>{
+        cy.viewport('macbook-16')
+    })
+
+    it('landed on Google.com',()=>{
+        cy.visit('https://google.com')
+    })
+
+    it('get input box of google and search for bajaj health app',()=>{
+        cy.visit('https://google.com')
+        cy.get('[jsname=vdLsw]')
+        cy.get('[title="Search"]').type('bajajfinservhealth.in').type('{enter}')
+    })
+
+    it('get into bajaj potal confirm landing on page & search for Doctor',()=>{
+    cy.visit('https://www.google.com/search?q=bajajfinservhealth.in&source=hp&ei=rs2HYp6TDr212roPksOYsAs&iflsig=AJiK0e8AAAAAYofbvpGIr-pf8mG2rlxE6ALfnU1lpVqo&ved=0ahUKEwieor-Ry-73AhW9mlYBHZIhBrYQ4dUDCAc&uact=5&oq=bajajfinservhealth.in&gs_lcp=Cgdnd3Mtd2l6EAMyBQgAEIAEMgUIABCABDoOCAAQjwEQ6gIQjAMQ5QI6CAguELEDEIMBOhEILhCABBCxAxCDARDHARDRAzoICAAQsQMQgwE6CAgAEIAEELEDOgsILhCABBCxAxCDAToFCC4QgAQ6CwgAEIAEELEDEIMBOg4ILhCABBCxAxDHARCjAjoICC4QgAQQ1AI6EQguEIAEELEDEIMBEMcBEKMCOgUILhCxAzoOCC4QgAQQsQMQgwEQ1AI6CAgAEIAEEMkDOgUIABCSAzoRCC4QgAQQsQMQxwEQowIQ1AI6CAguEIAEELEDOgUIABCxAzoQCC4QgAQQsQMQxwEQowIQCjoHCAAQgAQQCjoHCAAQyQMQCjoECAAQCjoGCAAQHhAFUFdY5wlg-ApoAXAAeAGAAYsCiAG5GpIBBjAuMTMuNZgBAKABAbABCg&sclient=gws-wiz')
+    cy.contains('Bajaj Finserv Health - Your Personalized Healthcare Platform').type('{enter}')
+    cy.url().should('contain','bajajfinservhealth')
+    cy.get('#searchBarInput').type('Doctors{enter}')
+      
+    })
+
+    it('Click On first Search-result & book slot',()=>{
+        cy.visit('https://www.bajajfinservhealth.in/search?offer=Flat75&offerid=24&journey=&term=doctors&page=1&econsult=true')
+        cy.get(':nth-child(1) > .css-1p6j90k > a > .css-1he2zgb > .css-14qs9ld > .MuiButton-containedPrimary > .MuiButton-label').click()
+        cy.get('.slotTimeContainer>a:nth-child(1)').click()
+    })
+    it('Confirming the booking details',()=>{
+        cy.visit('https://www.bajajfinservhealth.in/appointment/review?doctor=west-delhi%2Fdermatologist%2Fdr-vanya-narayan&duration=15&date=2022-05-20T00%3A00%3A00%2B05%3A30&time=23%3A15%3A00&type=econsult&offer=Flat75')
+        cy.get('[data-testid="member-name"]').should('exist')
+        cy.get('[data-testid="appointment-time"]').should('exist')
+        cy.get('[data-testid="consultation-type"]').should('exist')
+    })
+})

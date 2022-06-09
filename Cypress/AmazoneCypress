@@ -1,0 +1,32 @@
+/// <reference types="cypress" />
+
+Cypress.Cookies.debug(true) 
+
+describe('Test for Amazone',()=>{
+
+   beforeEach('Visist Site',()=>{
+    cy.login('9717806687','Shubham@123')
+    })
+
+    it("get from Drop-Down and Search Mobile",()=>{
+        cy.visit('https://www.amazon.in/')
+        cy.get('[id=searchDropdownBox]').select('Electronics',{force:true})
+        cy.get('#twotabsearchtextbox').type('Iphone 12').type('{enter}')    
+    })
+    it("Confirmation of Result page and click on product",()=>{
+        cy.visit('https://www.amazon.in/s?k=Iphone+12&i=electronics&crid=HFF4WOF1GJMN&sprefix=iphone+12%2Celectronics%2C559&ref=nb_sb_noss_1')
+        cy.contains('RESULTS').should('exist')
+        cy.get('[data-index="8"] > :nth-child(1)').click()
+    })
+    it('open the produt page add to cart',()=>{
+        cy.visit('https://www.amazon.in/New-Apple-iPhone-12-64GB/dp/B08L5T3S7T/ref=sr_1_1_sspa?crid=3VI3WPQ04GANU&keywords=Iphone%2B12&qid=1653037291&s=electronics&sprefix=iphone%2B1%2Celectronics%2C537&sr=1-1-spons&th=1')
+        cy.get('#add-to-cart-button').click().wait(500).get('#attach-close_sideSheet-link').click({force:true})
+        cy.get('.nav-cart-icon').click({force:true})
+    })
+    it('confirmation of product in cart',()=>{
+        cy.visit('https://www.amazon.in/gp/cart/view.html?ref_=nav_cart')
+        cy.get('#activeCartViewForm')
+        cy.contains('iPhone 12').should('exist')
+    })
+    
+})

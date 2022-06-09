@@ -1,0 +1,82 @@
+package seleniumsession;
+
+import java.time.Duration;
+import java.util.ArrayList;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.Select;
+
+import dev.failsafe.internal.util.Assert;
+
+public class Amazonetask {
+
+	public static void main(String[] args) throws InterruptedException {
+		// TODO Auto-generated method stub
+			System.setProperty("webdriver.chrome.driver", "E:\\chromedriver_win32\\chromedriver.exe");
+			WebDriver driver = new ChromeDriver();
+			driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+			Actions action = new Actions(driver);
+			driver.manage().window().maximize();
+			
+			
+			String url="https://www.amazon.in ";
+			driver.get(url);
+			System.out.println("Succesfully landed on Amazone page");
+		
+			WebElement signIn=driver.findElement(By.xpath("//a[@data-nav-role='signin' and contains(@href,'signin')][1]"));
+			signIn.click();	 
+			
+//			Login-in into amazone
+			 WebElement Email_field=driver.findElement(By.xpath("//input[@type='email']"));
+			 Email_field.sendKeys("9717806687",Keys.ENTER);
+			 
+			 WebElement Password_field=driver.findElement(By.xpath("//input[@type='password']"));
+			 Password_field.sendKeys("Shubham@123",Keys.ENTER);
+			 System.out.println("Login to amazone account");
+			 
+			 
+			Select select = new Select(driver.findElement(By.xpath("//select[@id='searchDropdownBox']")));
+			select.selectByVisibleText("Electronics");
+			
+			WebElement serachbox = driver.findElement(By.xpath("(//input[@id='twotabsearchtextbox'])"));
+			String product = "Iphone 12";
+		    serachbox.sendKeys(product+Keys.ENTER);
+		    
+		    System.out.println("Succesfully Select Electronic category and search for item");
+		    
+		    
+		    
+
+		    driver.findElement(By.xpath("//div[@data-component-type=\"s-search-result\"][1]//a[1]")).click();
+		    System.out.println("Succesfully click");
+		    
+		    String oldTab = driver.getWindowHandle();
+		    ArrayList<String> newTab = new ArrayList<String>(driver.getWindowHandles());
+//		    newTab.remove(oldTab);
+		    // change focus to new tab
+		    driver.switchTo().window(newTab.get(1));
+
+		    WebElement addtocart = driver.findElement(By.xpath("//input[@id='add-to-cart-button']"));
+		    addtocart.click();
+		    System.out.println("add to cart button is clicked");
+		    
+		    WebElement cart_btn = driver.findElement(By.xpath("//a[@id=\"nav-cart\"]"));
+		    cart_btn.click();
+		    String actualProduct=driver.findElement(By.xpath("//a[contains(@class,'product-link')]//span[contains(@class,'product-title')][1]")).getText();
+		    String qty = driver.findElement(By.xpath("//span[@class=\'a-button-inner\']//span[2]")).getText();
+		    if(actualProduct!="") {
+			 System.out.println(actualProduct);
+			 System.out.println("Quantity : "+qty);
+		    }
+		    else
+		    {
+		    	System.out.println("Cant fetch Product ");
+		    }
+	}
+
+}

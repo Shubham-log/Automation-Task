@@ -1,0 +1,50 @@
+package seleniumsession;
+
+import java.time.Duration;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.interactions.Actions;
+
+public class Makemytriptask {
+
+	public static void main(String[] args) throws InterruptedException {
+		// TODO Auto-generated method stub
+		
+		System.setProperty("webdriver.chrome.driver", "E:\\chromedriver_win32\\chromedriver.exe");
+		WebDriver driver = new ChromeDriver();
+		ChromeOptions options = new ChromeOptions();
+		options.addArguments("--disable-web-security");
+		options.addArguments("--disable-blink-features=AutomationControlled");
+		
+		Actions action = new Actions(driver);
+		
+		driver.manage().window().maximize();
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+		
+		String url="https://www.makemytrip.com/";
+		driver.get(url);
+		System.out.println("Succesfully visit to Make-my-trip ");
+		
+		WebElement loginbtn = driver.findElement(By.xpath("//li[@data-cy=\"account\"]"));
+		loginbtn.click();
+		
+		WebElement userame = driver.findElement(By.xpath("//input[@id=\"username\"]"));
+		userame.sendKeys("shubhams.cse19@chitkarauniversity.edu.in");
+		
+		WebElement Continuebtn = driver.findElement(By.xpath("//button[@class='capText font16']"));
+	    Thread.sleep(5000);
+		Continuebtn.click();
+		
+		WebElement Password = driver.findElement(By.xpath("//input[@id=\"password\"]"));
+		Password.sendKeys("Shubham123");
+		
+		WebElement login = driver.findElement(By.xpath("//button[@data-cy=\"login\"]"));
+		login.click();
+
+	}
+
+}

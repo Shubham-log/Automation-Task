@@ -1,0 +1,47 @@
+package seleniumsession;
+
+import java.time.Duration;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+
+import dev.failsafe.internal.util.Assert;
+
+public class BajajHealthtask {
+
+	public static void main(String[] args) throws InterruptedException {
+		// TODO Auto-generated method stub
+		System.setProperty("webdriver.chrome.driver", "E:\\chromedriver_win32\\chromedriver.exe");
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+		Actions actions = new Actions(driver);
+
+		driver.get("http://www.google.com");
+		driver.findElement(By.cssSelector("input[title='Search']")).sendKeys("Bajajfinservhealth"+Keys.ENTER);
+		// Enter Into  Portal
+		driver.findElement(By.xpath("//h3[contains(text(),'Bajaj Finserv Health - Your Personalized Healthcar')]")).click();
+
+		driver.findElement(By.xpath("//input[@id='searchBarInput']")).sendKeys("Doctor"+Keys.ENTER);
+
+
+		WebElement FirstDoctorResource= driver.findElement(By.xpath("(//button[contains(text(),'Book Appointment')])[1]"));
+		FirstDoctorResource.click();
+
+		String expectedTime = driver.findElement(By.xpath("//div[@class='slotTimeContainer']//span[@class='MuiButton-label']")).getText();
+		WebElement slotbook = driver.findElement(By.xpath("//div[@class='slotTimeContainer']//span[@class='MuiButton-label']"));
+		slotbook.click();
+		String actualTime=driver.findElement(By.xpath("//div[@data-testid='appointment-time']")).getText();
+
+
+		String details =driver.findElement(By.xpath("//div[@class=\"MuiGrid-root css-1nq0t28 MuiGrid-item\"]")).getText();
+		System.out.println(details);
+		
+		driver.close();
+	}
+
+}
