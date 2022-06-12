@@ -1,0 +1,93 @@
+package Test;
+
+import static io.restassured.RestAssured.*;
+
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
+import static org.hamcrest.Matchers.hasItems;
+
+import org.json.simple.JSONObject;
+import org.testng.annotations.Test;
+
+import io.restassured.RestAssured;
+
+public class APItest {
+
+	@Test
+	public void Get()
+	{
+		baseURI = "https://reqres.in/api";
+		given().
+		get("/users?page=2").
+		then().
+		assertThat().body(matchesJsonSchemaInClasspath("Get.json")).
+		statusCode(200).
+		body("data.id",hasItems(7,8,9,10,11,12));
+	}
+
+	@Test
+	public void Post(){
+
+		JSONObject request = new JSONObject(); 
+		request.put("name", "Shubham");
+		request.put("job", "Student");
+		baseURI = "https://reqres.in/api";
+		given().
+		header("Content-Type","application/json").
+		when().
+		post("/users").
+		then().
+		statusCode(201).
+		and().
+		assertThat().body(matchesJsonSchemaInClasspath("Post.json"));
+
+
+	}
+	
+	@Test
+	public void put()
+	{
+		JSONObject request = new JSONObject(); 
+		request.put("name", "Shubham");
+		request.put("job", "Automation");
+		baseURI = "https://reqres.in/api";
+		given().
+		header("Content-Type","application/json").
+		when().
+		put("/users/2").
+		then().
+		statusCode(200).
+		and().
+		assertThat().body(matchesJsonSchemaInClasspath("Put.json"));
+
+	}
+	
+	@Test
+	public void patch()
+	{
+		JSONObject request = new JSONObject(); 
+		request.put("name", "Shubham Sharma");
+		request.put("job", "Devloper");
+		baseURI = "https://reqres.in/api";
+		given().
+		header("Content-Type","application/json").
+		when().
+		put("/users/2").
+		then().
+		statusCode(200).
+		and().
+		assertThat().body(matchesJsonSchemaInClasspath("Put.json"));
+//		json schema for put and patch request is same that's why i use put.json here
+
+	}
+	@Test
+	public void Delete()
+	{
+       baseURI ="https://reqres.in/api";
+		
+		when()
+		.delete("/users/2")
+		.then()
+		.statusCode(204).log().all();
+	}
+}
+
